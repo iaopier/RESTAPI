@@ -1,0 +1,6 @@
+com\piercarlo\fishstore\RESTAPI\RestapiApplication.class
+com\piercarlo\fishstore\RESTAPI\product\ProductController.class
+com\piercarlo\fishstore\RESTAPI\product\Product.class
+com\piercarlo\fishstore\RESTAPI\product\ProductRespository.class
+com\piercarlo\fishstore\RESTAPI\security\SecurityConfig.class
+com\piercarlo\fishstore\RESTAPI\product\ProductService.class

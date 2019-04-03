@@ -1,0 +1,231 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Fish Store API",
+    "description" : "This is a Fish Store API made by Piercarlo",
+    "contact" : {
+      "email" : "you@your-company.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0-oas3"
+  },
+  "servers" : [ {
+    "url" : "https://localhost:8080"
+  } ],
+  "tags" : [ {
+    "name" : "Products",
+    "description" : "Operations that fetch products, edit and add new products"
+  } ],
+  "paths" : {
+    "/products" : {
+      "get" : {
+        "tags" : [ "Products" ],
+        "summary" : "List all itens available or out of stock",
+        "description" : "Method list all products ever inserted in stock, either available or not, needs Authentication.\n",
+        "operationId" : "listProducts",
+        "responses" : {
+          "200" : {
+            "description" : "Ok!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Products" ],
+        "summary" : "Insert new products into stock, needs Authentication",
+        "description" : "The product to add.\n",
+        "operationId" : "addProduct",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Ok!"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "409" : {
+            "description" : "The object already exists"
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    },
+    "/products/{productId}" : {
+      "get" : {
+        "tags" : [ "Products" ],
+        "summary" : "List on specified item available or out of stock, identified by ID, needs Authentication",
+        "description" : "Method list one products ever inserted in stock, either available or not identified by ID.\n",
+        "operationId" : "listProduct",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Product ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "No product with entered ID was found."
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "Products" ],
+        "summary" : "Update products in stock, needs Authentication",
+        "description" : "Find a product identified by ID and change it, either to decrease  quantity or add up\n",
+        "operationId" : "updateProduct",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Product ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "The product to update.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Ok!"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "No product with entered ID was found."
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Products" ],
+        "summary" : "Delete product identified by ID, needs Authentication",
+        "description" : "Find a product identified by ID, and delete it, removes all products in stock and all registry that product was ever in store.\n",
+        "operationId" : "deleteProduct",
+        "parameters" : [ {
+          "name" : "productId",
+          "in" : "path",
+          "description" : "Product ID",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok!"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "No product with entered ID was found."
+          }
+        },
+        "security" : [ {
+          "ApiKeyAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Product" : {
+        "required" : [ "id", "name", "quantity" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64",
+            "example" : 0
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Vara telescópica Shimano"
+          },
+          "quantity" : {
+            "type" : "integer",
+            "format" : "int64",
+            "example" : 20
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "ApiKeyAuth" : {
+        "type" : "apiKey",
+        "name" : "X-API-KEY",
+        "in" : "header"
+      }
+    }
+  }
+}
